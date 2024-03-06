@@ -1,6 +1,8 @@
-# Prompt Tuning in Domino Using NeMo-Megatron
+# PEFT in Domino Using NeMo
 
-This repository demonstrates an example of how to do Prompt Tuning in Domino Data Lab using [Nvidia's NeMo Toolkit](https://github.com/NVIDIA/NeMo).
+This repository demonstrates an example of how to apply PEFT in Domino Data Lab using [Nvidia's NeMo Toolkit](https://github.com/NVIDIA/NeMo).
+
+For brevity, we have chosen LoRA as the PEFT technique and GPT as the language model, but the same recipe can be used for other PEFT techniques and language models.
 
 Run the sample notebook in a GPU workspace provisioned using the custom environment below. 
 
@@ -10,7 +12,7 @@ Create a custom Domino Environment with the configuration below:
 
 **Environment Base** 
 
-`nvcr.io/nvidia/nemo:23.06`
+`nvcr.io/nvidia/nemo:23.10`
 
 **Dockerfile Instructions**
 
@@ -28,6 +30,12 @@ RUN /opt/domino/bin/init.sh
 
 # Validate the environment
 RUN /opt/domino/bin/validate.sh
+
+# Install MLflow for experiment tracking
+RUN pip install mlflow
+
+RUN cd /usr/local/lib/python3.10/dist-packages/nemo/collections/nlp/data/language_modeling/megatron && make && pip install accelerate
+
 ```
 
 **Pluggable Workspace Tools**
